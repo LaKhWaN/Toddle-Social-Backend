@@ -9,6 +9,7 @@ const { verifyToken } = require("./configs/jwt");
 // Function starting server
 async function startServer() {
   const server = new ApolloServer({
+    introspection: true,
     typeDefs,
     resolvers,
     context: async ({ req }) => {
