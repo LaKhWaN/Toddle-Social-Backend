@@ -23,22 +23,28 @@ async function startServer() {
     listen: { port: 8000 },
     context: async ({ req }) => {
       try {
+        // if query is login or register, skip authentication
         if (
-          req.body.operationName === "registerUser" ||
-          req.body.operationName === "loginUser"
-        )
+          req.body.query.includes("login") ||
+          req.body.query.includes("register") ||
+          req.body.query.includes("hello")
+        ) {
           return;
-        const token = (req.headers.authorization || "").split(" ")[1];
-        const { username } = verifyToken(token);
-        if (!username) {
-          throw new GraphQLError("User is not authenticated", {
-            extensions: {
-              code: "UNAUTHENTICATED",
-              http: { status: 401 },
-            },
-          });
+        }
+        if (req.headers.authorization) {
+          const token = (req.headers.authorization || "").split(" ")[1];
+          const { username } = verifyToken(token);
+          if (!username) {
+            throw new GraphQLError("User is not authenticatedd", {
+              extensions: {
+                code: "UNAUTHENTICATED",
+                http: { status: 401 },
+              },
+            });
+          }
         }
       } catch (error) {
+        console.log("Error:", error);
         throw new GraphQLError("User is not authenticated", {
           extensions: {
             code: "UNAUTHENTICATED",
