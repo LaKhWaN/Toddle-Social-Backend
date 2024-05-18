@@ -273,10 +273,9 @@ const resolvers = {
           throw new Error("Author not found");
         }
 
-        const scheduledTimestamp = cScheduledAt
-          ? new Date(cScheduledAt).toISOString()
-          : null;
-
+        // if scheduledAt is not provided, it will be scheduled at the current time
+        const scheduledTimestamp = cScheduledAt || new Date().toISOString();
+        console.log("Scheduled at: ", scheduledTimestamp);
         await pool.query(
           "INSERT INTO content (c_author, c_text, c_scheduled_at, c_image, c_video) VALUES ($1, $2, $3, $4, $5)",
           [cAuthor, cText, scheduledTimestamp, cImage, cVideo]
