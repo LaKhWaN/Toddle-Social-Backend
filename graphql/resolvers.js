@@ -84,7 +84,7 @@ const resolvers = {
     getAllContent: async () => {
       try {
         const allContent = await pool.query(
-          "SELECT * FROM content WHERE c_active = true"
+          "SELECT * FROM content WHERE c_active = true  AND c_scheduled_at <= NOW() ORDER BY id ASC"
         );
         return allContent.rows;
       } catch (error) {
@@ -101,7 +101,7 @@ const resolvers = {
         const followingIds = following.rows.map((follow) => follow.followingid);
 
         const content = await pool.query(
-          "SELECT * FROM content WHERE c_author = ANY($1) AND c_active = true",
+          "SELECT * FROM content WHERE c_author = ANY($1) AND c_active = true AND c_scheduled_at <= NOW() ORDER BY id ASC",
           [followingIds]
         );
         return content.rows;
@@ -113,9 +113,20 @@ const resolvers = {
     getContentById: async (parent, { id }) => {
       try {
         const content = await pool.query(
-          "SELECT * FROM content WHERE id = $1 AND c_active = true",
+          "SELECT * FROM content WHERE id = $1 AND c_active = true AND c_scheduled_at <= NOW() LIMIT 1",
           [id]
         );
+        const likes = await pool.query(
+          "SELECT COUNT(*) FROM likes WHERE liked_content = $1 AND like_active = true",
+          [id]
+        );
+        const comments = await pool.query(
+          "SELECT * FROM comment WHERE cmt_post = $1 AND cmt_active = true",
+          [id]
+        );
+        content.rows[0].likes = likes.rows[0].count;
+        content.rows[0].comments = comments.rows;
+
         return content.rows[0];
       } catch (error) {
         console.log("ERROR: ", error);
@@ -126,7 +137,7 @@ const resolvers = {
     getAllComments: async () => {
       try {
         const comments = await pool.query(
-          "SELECT * FROM comment WHERE cmt_active = true ORDER BY id ASC"
+          "SELECT * FROM comment WHERE cmt_active = true AND NOT cmt_disabled ORDER BY id ASC"
         );
         return comments.rows;
       } catch (error) {
@@ -135,13 +146,44 @@ const resolvers = {
     },
 
     getLikesOfPost: async (parent, { id }) => {
-      console.log(id);
       try {
         const likes = await pool.query(
           "SELECT COUNT(*) FROM likes WHERE liked_content = $1 AND like_active = true",
           [id]
         );
         return likes.rows[0].count;
+      } catch (error) {
+        console.log("ERROR: ", error);
+      }
+    },
+
+    getFeed: async (parent, { id }) => {
+      try {
+        const following = await pool.query(
+          "SELECT followingid FROM followings WHERE followerid = $1",
+          [id]
+        );
+        const followingIds = following.rows.map((follow) => follow.followingid);
+
+        followingIds.push(id); // pushing the users id so his own feed will be loaded
+        const content = await pool.query(
+          "SELECT * FROM content WHERE c_author = ANY($1) AND c_active = true AND (c_scheduled_at <= NOW())",
+          [followingIds]
+        );
+
+        for (let i = 0; i < content.rows.length; i++) {
+          const likes = await pool.query(
+            "SELECT COUNT(*) FROM likes WHERE liked_content = $1 AND like_active = true",
+            [content.rows[i].id]
+          );
+          const comments = await pool.query(
+            "SELECT * FROM comment WHERE cmt_post = $1 AND cmt_active = true",
+            [content.rows[i].id]
+          );
+          content.rows[i].likes = likes.rows[0].count;
+          content.rows[i].comments = comments.rows;
+        }
+        return content.rows;
       } catch (error) {
         console.log("ERROR: ", error);
       }
@@ -218,13 +260,28 @@ const resolvers = {
         throw new Error(error);
       }
     },
-    makeContent: async (parent, { cAuthor, cText, cImage, cVideo }) => {
+    makeContent: async (
+      parent,
+      { cAuthor, cText, cScheduledAt, cImage, cVideo }
+    ) => {
       try {
-        // todo: upload image and video
-        await pool.query(
-          "INSERT INTO content (c_author, c_text, c_image, c_video) VALUES ($1, $2, $3, $4)",
-          [cAuthor, cText, cImage, cVideo]
+        const author = await pool.query(
+          "SELECT COUNT(*) AS COUNT FROM users WHERE id = $1",
+          [cAuthor]
         );
+        if (author.rows[0].count == 0) {
+          throw new Error("Author not found");
+        }
+
+        const scheduledTimestamp = cScheduledAt
+          ? new Date(cScheduledAt).toISOString()
+          : null;
+
+        await pool.query(
+          "INSERT INTO content (c_author, c_text, c_scheduled_at, c_image, c_video) VALUES ($1, $2, $3, $4, $5)",
+          [cAuthor, cText, scheduledTimestamp, cImage, cVideo]
+        );
+
         return true;
       } catch (error) {
         throw new Error(error);
@@ -244,7 +301,7 @@ const resolvers = {
       if (!cmt_text) throw new Error("Comment text is required");
       // first we check if the post or author exists or not
       const post = await pool.query(
-        "SELECT COUNT(*) AS COUNT FROM content WHERE id = $1",
+        "SELECT COUNT(*) AS COUNT FROM content WHERE id = $1 AND c_active = true AND c_scheduled_at <= NOW()",
         [cmt_post]
       );
       const author = await pool.query(
@@ -299,6 +356,17 @@ const resolvers = {
       }
     },
 
+    disableEnableComment: async (parent, { id }) => {
+      try {
+        await pool.query(
+          "UPDATE comment SET cmt_disabled = NOT cmt_disabled WHERE id = $1",
+          [id]
+        );
+        return true;
+      } catch (error) {
+        console.log("ERROR: ", error);
+      }
+    },
     // Likes
     createOrRemoveLike: async (parent, { liked_by, liked_content }) => {
       try {
@@ -308,7 +376,7 @@ const resolvers = {
           [liked_by]
         );
         const content = await pool.query(
-          "SELECT COUNT(*) AS COUNT FROM content WHERE id = $1",
+          "SELECT COUNT(*) AS COUNT FROM content WHERE id = $1 AND c_active = true AND c_scheduled_at <= NOW()",
           [liked_content]
         );
         if (user.rows[0].count == 0 || content.rows[0].count == 0) {

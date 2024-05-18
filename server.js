@@ -1,40 +1,54 @@
 // Necessary imports
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
 const { ApolloServer } = require("@apollo/server");
-const { expressMiddleware } = require("@apollo/server/express4");
+const { startStandaloneServer } = require("@apollo/server/standalone");
 const resolvers = require("./graphql/resolvers");
 const typeDefs = require("./graphql/typeDefs");
+const { GraphQLError } = require("graphql");
+const { verifyToken } = require("./configs/jwt");
 
 // Function starting server
 async function startServer() {
   const server = new ApolloServer({
-    typeDefs: typeDefs,
-    resolvers: resolvers,
-    // verifyToken
-    context: ({ req }) => {
-      console.log("Req", { req });
+    typeDefs,
+    resolvers,
+    context: async ({ req }) => {
       const token = req.headers.authorization || "";
-      console.log("Token", { token });
+      console.log("Token:", token);
       return { token };
     },
   });
 
-  // creating express app
-  const app = express();
-  app.use(cors());
-  app.use(bodyParser.json());
-
-  await server.start();
-
-  app.use("/graphql", expressMiddleware(server));
-
-  app.listen(8000, () => {
-    console.log(
-      "🚀 Apollo Server is running on port http://localhost:8000/graphql"
-    );
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: 8000 },
+    context: async ({ req }) => {
+      try {
+        if (
+          req.body.operationName === "registerUser" ||
+          req.body.operationName === "loginUser"
+        )
+          return;
+        const token = (req.headers.authorization || "").split(" ")[1];
+        const { username } = verifyToken(token);
+        if (!username) {
+          throw new GraphQLError("User is not authenticated", {
+            extensions: {
+              code: "UNAUTHENTICATED",
+              http: { status: 401 },
+            },
+          });
+        }
+      } catch (error) {
+        throw new GraphQLError("User is not authenticated", {
+          extensions: {
+            code: "UNAUTHENTICATED",
+            http: { status: 401 },
+          },
+        });
+      }
+    },
   });
+
+  console.log(`🚀 Apollo Server is running at ${url}`);
 }
 
 startServer();

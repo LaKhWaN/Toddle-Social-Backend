@@ -1,8 +1,6 @@
 // All the TypeDefs for graphql
 
 const typeDefs = `
-    scalar Upload
-
     type User {
         id: ID!
         username: String!
@@ -19,8 +17,11 @@ const typeDefs = `
         c_author: Int!
         c_active: Boolean!
         c_text: String!
+        c_scheduled_at: String
         c_image: String
         c_video: String
+        likes: Int
+        comments: [Comment]
     }
 
     type Comment {
@@ -29,6 +30,7 @@ const typeDefs = `
         cmt_post: Int!
         cmt_author: Int!
         cmt_text: String!
+        cmt_disabled: Boolean!
     }
 
     type Likes {
@@ -53,12 +55,14 @@ const typeDefs = `
         findUsersByName(name: String!): [User]
         
         getAllContent: [Content]
-        getContentFromFollowing(id: ID!): [Content]
         getContentById(id: ID!): Content
+        getContentFromFollowing(id: ID!): [Content]
 
         getAllComments: [Comment]
-
         getLikesOfPost(id: ID!): Int
+        getCommentFromFollowing(id: ID!): [Comment]
+
+        getFeed(id: ID!): [Content]
     }
 
     type Mutation {
@@ -72,6 +76,7 @@ const typeDefs = `
         createComment(cmt_post: Int!, cmt_author: Int!, cmt_text: String!): Boolean!
         removeComment(id: ID!): Boolean!
         editComment(id: ID!, cmt_text: String!): Boolean!
+        disableEnableComment(id: ID!): Boolean!
 
         createOrRemoveLike(liked_by: Int!, liked_content: Int!): Boolean!
     }
