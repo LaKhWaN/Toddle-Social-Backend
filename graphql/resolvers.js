@@ -326,7 +326,7 @@ const resolvers = {
       try {
         // todo: also check if the user is the author or not and if the comment is already deleted or not
         await pool.query(
-          "UPDATE comment SET cmt_active = false WHERE id = $1",
+          "UPDATE comment SET cmt_active = NOT cmt_active WHERE id = $1",
           [id]
         ); // updating the c_active so it will become inactive
         return true;
