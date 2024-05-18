@@ -354,18 +354,6 @@ const resolvers = {
         throw new Error(error);
       }
     },
-
-    disableEnableComment: async (parent, { id }) => {
-      try {
-        await pool.query(
-          "UPDATE comment SET cmt_disabled = NOT cmt_disabled WHERE id = $1",
-          [id]
-        );
-        return true;
-      } catch (error) {
-        console.log("ERROR: ", error);
-      }
-    },
     // Likes
     createOrRemoveLike: async (parent, { liked_by, liked_content }) => {
       try {

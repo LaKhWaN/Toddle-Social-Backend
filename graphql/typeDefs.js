@@ -76,7 +76,6 @@ const typeDefs = `
         createComment(cmt_post: Int!, cmt_author: Int!, cmt_text: String!): Boolean!
         removeComment(id: ID!): Boolean!
         editComment(id: ID!, cmt_text: String!): Boolean!
-        disableEnableComment(id: ID!): Boolean!
 
         createOrRemoveLike(liked_by: Int!, liked_content: Int!): Boolean!
     }
