@@ -1,5 +1,6 @@
 const { Pool } = require("pg");
 
+// This database is hosted on Supabase, so no need to import on localhost
 const pool = new Pool({
   host: "aws-0-ap-south-1.pooler.supabase.com",
   user: "postgres.nobwtdjwlppmufoajdke",
