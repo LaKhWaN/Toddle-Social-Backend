@@ -23,7 +23,6 @@ async function startServer() {
     listen: { port: 8000 },
     context: async ({ req }) => {
       try {
-        // if query is login or register, skip authentication
         if (
           req.body.query.includes("login") ||
           req.body.query.includes("register") ||

@@ -288,7 +288,7 @@ const resolvers = {
     },
     removeContent: async (parent, { id }) => {
       try {
-        pool.query("UPDATE content SET c_active = false WHERE id = $1", [id]); // updating the c_active so it will become unactive
+        pool.query("UPDATE content SET c_active = false WHERE id = $1", [id]);
         return true;
       } catch (error) {
         throw new Error(error);
@@ -324,7 +324,6 @@ const resolvers = {
 
     removeComment: async (parent, { id }) => {
       try {
-        // todo: also check if the user is the author or not and if the comment is already deleted or not
         await pool.query(
           "UPDATE comment SET cmt_active = NOT cmt_active WHERE id = $1",
           [id]
@@ -354,6 +353,7 @@ const resolvers = {
         throw new Error(error);
       }
     },
+
     // Likes
     createOrRemoveLike: async (parent, { liked_by, liked_content }) => {
       try {

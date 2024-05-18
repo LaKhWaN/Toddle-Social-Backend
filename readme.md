@@ -24,16 +24,9 @@ The Social Media Backend GraphQL project aims to provide a scalable and efficien
 
 ## Installation
 
-1. Clone the repository:
+1. Install the dependencies:
 
    ```bash
-   git clone https://github.com/LaKhWaN/social-media-backend-graphql.git
-   ```
-
-2. Install the dependencies:
-
-   ```bash
-   cd social-media-backend-graphql
    npm install
    ```
 
@@ -45,8 +38,9 @@ The Social Media Backend GraphQL project aims to provide a scalable and efficien
 
 ## Usage
 
-Once the server is running, you can access the GraphQL playground at `http://localhost:3000/graphql`. Use the playground to explore and interact with the API.
+Once the server is running, you can access the GraphQL playground at `http://localhost:8000/graphql`. Use the playground to explore and interact with the API.
 
+#### You can also visit Postman collection to test the API, documentation is avaialble [here](https://www.postman.com/upenderlakhwan/workspace/social-media-backend-toddle/collection/34287110-42618587-dd8c-4b4c-8f51-84dd106775fb).
 ## Contributing
 
 Contributions are welcome! If you have any ideas, suggestions, or bug reports, please open an issue or submit a pull request.

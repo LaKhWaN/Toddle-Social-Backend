@@ -1,0 +1,1570 @@
+{
+	"info": {
+		"_postman_id": "42618587-dd8c-4b4c-8f51-84dd106775fb",
+		"name": "Social Media Backend Assignemnt - Toddle",
+		"description": "## Backend APIs Overview\n\nThis documentation contains all the APIs for the task given by Toddle for the role of Backend Intern. The server is hosted on **render**, and database is hosted on **Supabase.**\n\nDue to different hostings of both, there is slighly less performance observed by the tester (_ping issues)_.\n\n**Note: As I am using render's free plan, it will take around 40-50 seconds to hit the first API, and then only it will work smoothly.**\n\nFeel free to navigate through the folders, all the APIs which are mentioned in the assignment has been implemented and tested, and all of them are perfectly fine.\n\n### Tech Stack / Libraries Used\n\nI have used the followings tech stack to make sure I get extra points, and used technology which currently **toddle** is working on.\n\n- NodeJs\n    \n- ExpressJs\n    \n- PostgreSQL\n    \n- GraphQL\n    \n- Json Web Token (JWT)\n    \n- Argon2 (for password encryption)\n    \n\n### ER Diagram of the Database\n\nPostgreSQL is used as backend for the assignment and below is the ER Diagram of the database.\n\n<img src=\"https://content.pstmn.io/6b1c47a3-a55e-408d-bce5-8e3c1ec0930d/c29jaWFsYmFja2VuZC5wbmc=\" alt=\"\">",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34287110",
+		"_collection_link": "https://www.postman.com/upenderlakhwan/workspace/social-media-backend-toddle/collection/34287110-42618587-dd8c-4b4c-8f51-84dd106775fb?action=share&source=collection_link&creator=34287110"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation registerUser($username: String!, $password: String!, $firstname: String!, $lastname: String!, $email: String!){\r\n  registerUser(username: $username, password: $password, firstname: $firstname, lastname: $lastname, email: $email) {\r\n    token\r\n    user {\r\n      id\r\n      username\r\n      password\r\n      firstname\r\n      lastname\r\n      email\r\n    }\r\n  }\r\n}",
+								"variables": "{   \"username\": \"sampaul\",\r\n    \"password\": \"sam123\",  \r\n    \"firstname\": \"Sam\",\r\n    \"lastname\": \"Paul\",\r\n    \"email\": \"sampaul123@gmail.com\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolvers is used to register the user.\n\nIt returns AuthPayLoad which contains token and the User Object\n\n**Use the token as Bearer Header in other APIs for authorization**"
+					},
+					"response": [
+						{
+							"name": "Register User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation registerUser($username: String!, $password: String!, $firstname: String!, $lastname: String!, $email: String!){\r\n  registerUser(username: $username, password: $password, firstname: $firstname, lastname: $lastname, email: $email) {\r\n    token\r\n    user {\r\n      id\r\n      username\r\n      password\r\n      firstname\r\n      lastname\r\n      email\r\n    }\r\n  }\r\n}",
+										"variables": "{   \"username\": \"sampaul\",\r\n    \"password\": \"sam123\",  \r\n    \"firstname\": \"Sam\",\r\n    \"lastname\": \"Paul\",\r\n    \"email\": \"sampaul123@gmail.com\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:39:41 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885fb01f6aeb54cb-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"18c-fPhkObaktgXhYMaJFlz5s+kknzw\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "afed4598-5f7a-4ac6"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Error: Username already taken\",\n            \"locations\": [\n                {\n                    \"line\": 2,\n                    \"column\": 3\n                }\n            ],\n            \"path\": [\n                \"registerUser\"\n            ],\n            \"extensions\": {\n                \"code\": \"INTERNAL_SERVER_ERROR\",\n                \"stacktrace\": [\n                    \"Error: Error: Username already taken\",\n                    \"    at Object.registerUser (/opt/render/project/src/graphql/resolvers.js:226:15)\",\n                    \"    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\"\n                ]\n            }\n        }\n    ],\n    \"data\": null\n}"
+						}
+					]
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query loginUser($username: String!, $password: String!) {\r\n  loginUser(username: $username, password: $password) {\r\n    token\r\n    user {\r\n      id\r\n      username\r\n      firstname\r\n      lastname\r\n      email\r\n    }\r\n  }\r\n}",
+								"variables": "{  \"username\": \"johndoe\",\r\n  \"password\": \"john123@\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolvers is used to login the user.\n\nIt returns AuthPayLoad which contains token and the User Object\n\n**Use the token as Bearer Header in other APIs for authorization**"
+					},
+					"response": [
+						{
+							"name": "Login User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query loginUser($username: String!, $password: String!) {\r\n  loginUser(username: $username, password: $password) {\r\n    token\r\n    user {\r\n      id\r\n      username\r\n      firstname\r\n      lastname\r\n      email\r\n    }\r\n  }\r\n}",
+										"variables": "{  \"username\": \"johndoe\",\r\n  \"password\": \"john123@\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:03:41 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7b5b1b455460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"15f-UA4XAmcBpAL2ckrBPrnAZvijZoE\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "d59e95a5-8246-4c41"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"loginUser\": {\n            \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjIsInVzZXJuYW1lIjoiam9obmRvZSIsImVtYWlsIjoiam9obmRvZTEyM0BnbWFpbC5jb20iLCJpYXQiOjE3MTYwNzM0MjEsImV4cCI6MTcxNjE1OTgyMX0.mKfsoC_XPsegqZ3ZUimauCka0RmJeExlzPis7za8d5w\",\n            \"user\": {\n                \"id\": \"22\",\n                \"username\": \"johndoe\",\n                \"firstname\": \"John\",\n                \"lastname\": \"Doe\",\n                \"email\": \"johndoe123@gmail.com\"\n            }\n        }\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder contains the APIs which helps in authentication of the user"
+		},
+		{
+			"name": "User related APIs",
+			"item": [
+				{
+					"name": "Follow User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation followUser($followerid: ID!, $followingid: ID!) {\r\n  followUser(followerid: $followerid, followingid: $followingid)\r\n}",
+								"variables": "{\r\n  \"followerid\": 22,\r\n  \"followingid\": 20\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolver follows a user by inserting the details in the database.\n\nIt returns true if the user have sucessfully followed the user."
+					},
+					"response": [
+						{
+							"name": "Follow User",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation followUser($followerid: ID!, $followingid: ID!) {\r\n  followUser(followerid: $followerid, followingid: $followingid)\r\n}",
+										"variables": "{\r\n  \"followerid\": 22,\r\n  \"followingid\": 20\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:03:50 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7b9839575460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"17c-R8sJ0dLy+MTQUeisMhxiGitNe7Y\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "f4bb975b-9b03-448a"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"errors\": [\n        {\n            \"message\": \"Error: Already followed\",\n            \"locations\": [\n                {\n                    \"line\": 2,\n                    \"column\": 3\n                }\n            ],\n            \"path\": [\n                \"followUser\"\n            ],\n            \"extensions\": {\n                \"code\": \"INTERNAL_SERVER_ERROR\",\n                \"stacktrace\": [\n                    \"Error: Error: Already followed\",\n                    \"    at Object.followUser (/opt/render/project/src/graphql/resolvers.js:260:15)\",\n                    \"    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\"\n                ]\n            }\n        }\n    ],\n    \"data\": null\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder contains all the user related APIs"
+		},
+		{
+			"name": "Content Related APIs",
+			"item": [
+				{
+					"name": "Create Content/Post",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MjIsInVzZXJuYW1lIjoiam9obmRvZSIsImVtYWlsIjoiam9obmRvZTEyM0BnbWFpbC5jb20iLCJpYXQiOjE3MTYwNjc1OTEsImV4cCI6MTcxNjE1Mzk5MX0.v4ohDAyM9RLbDNuzBVRG_YGZrwzBBEt5q_VC0UFK2pA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createPost($cAuthor: ID!, $cText: String!){\r\n  makeContent(cAuthor: $cAuthor, cText: $cText)\r\n}",
+								"variables": "{\r\n  \"cAuthor\": \"22\",\r\n  \"cText\": \"I love this toddle app it helps them in teaching!\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolvers create content or Post on the social media app.\n\nThere are two required parameters: **Author ID** and the **Text**\n\n**FEAUTRE: SCHEDULED POST**\n\n```\nYYYY-MM-DDTHH:MM:SSZ\n\n ```\n\nProvide the date in the above format to schedule a post.\n\n_Working: While fetching the feed it will check if current_time >= scheduled_time_\n\nIt returns Boolean value if post is created or not"
+					},
+					"response": [
+						{
+							"name": "Create Content/Post",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation createPost($cAuthor: ID!, $cText: String!){\r\n  makeContent(cAuthor: $cAuthor, cText: $cText)\r\n}",
+										"variables": "{\r\n  \"cAuthor\": \"22\",\r\n  \"cText\": \"I love this toddle app it helps them in teaching!\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:04:00 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7bd988365460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-V46GrQZLDJWbRyoB9a5lKQRPrtg\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "755d1f03-37aa-409e"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"makeContent\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove Content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation removeContent($removeContentId: ID!) {\r\n  removeContent(id: $removeContentId)\r\n}",
+								"variables": "{\r\n  \"removeContentId\": 20\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolver removes the content from the database just by changing the value of c_active to false.\n\nIt returns true if sucess"
+					},
+					"response": [
+						{
+							"name": "Remove Content",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation removeContent($removeContentId: ID!) {\r\n  removeContent(id: $removeContentId)\r\n}",
+										"variables": "{\r\n  \"removeContentId\": 20\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:04:08 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7c0b7cb75460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-WVdPo511A1K2Yfet8MLSgzPw8Hk\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "5288792d-01e6-45d8"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"removeContent\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Like Content",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation likePost($likedBy: Int!, $likedContent: Int!) {\r\n  createOrRemoveLike(liked_by: $likedBy, liked_content: $likedContent)\r\n}",
+								"variables": "{\r\n  \"likedBy\": 22,\r\n  \"likedContent\": 15\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolvers likes a post.\n\nIt is special type of resolver which takes two paramteres, liked_by and liked_content.\n\nIt automatically, insert the like in the database then if the user have already liked, it uses like_active to unlike it, without deleting.\n\nSo it's dynamic and only one resolver and merged multiple resolvers of create/edit/delete."
+					},
+					"response": [
+						{
+							"name": "Like Content",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation likePost($likedBy: Int!, $likedContent: Int!) {\r\n  createOrRemoveLike(liked_by: $likedBy, liked_content: $likedContent)\r\n}",
+										"variables": "{\r\n  \"likedBy\": 22,\r\n  \"likedContent\": 15\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:04:17 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7c450a255460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"25-9Ipzu68RErmcd0E661+P2J9O17w\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "8b4ad028-88c4-4bbe"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"createOrRemoveLike\": true\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder contains all the content related APIs"
+		},
+		{
+			"name": "Comment Related APIs",
+			"item": [
+				{
+					"name": "Create Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation createComment($cmtPost: Int!, $cmtAuthor: Int!, $cmtText: String!) {\r\n  createComment(cmt_post: $cmtPost, cmt_author: $cmtAuthor, cmt_text: $cmtText)\r\n}",
+								"variables": "{\r\n  \"cmtPost\": 15,\r\n  \"cmtAuthor\": 22,\r\n  \"cmtText\": \"Right man! I agree, toddle is an amazing app.\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolvers create a comment and save it in the database.\n\nIt returns true if the comment has been posted sucessfully.\n\n_Tip: try the api GetFeed now to see the new comments and likes_"
+					},
+					"response": [
+						{
+							"name": "Create Comment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation createComment($cmtPost: Int!, $cmtAuthor: Int!, $cmtText: String!) {\r\n  createComment(cmt_post: $cmtPost, cmt_author: $cmtAuthor, cmt_text: $cmtText)\r\n}",
+										"variables": "{\r\n  \"cmtPost\": 15,\r\n  \"cmtAuthor\": 22,\r\n  \"cmtText\": \"Right man! I agree, toddle is an amazing app.\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:04:27 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7c82e83f5460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-L+RSlPvKDZZZrUU/Fhc6Ivvo/Ik\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "fdde4b46-9df8-4adf"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"createComment\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Edit Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation editComment($editCommentId: ID!, $cmtText: String!) {\r\n  editComment(id: $editCommentId, cmt_text: $cmtText)\r\n}",
+								"variables": "{\r\n  \"editCommentId\": 8,\r\n  \"cmtText\": \"This is editted comment!\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolver edits a comment by updating the database.\n\nIt returns true if sucessfull"
+					},
+					"response": [
+						{
+							"name": "Edit Comment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation editComment($editCommentId: ID!, $cmtText: String!) {\r\n  editComment(id: $editCommentId, cmt_text: $cmtText)\r\n}",
+										"variables": "{\r\n  \"editCommentId\": 8,\r\n  \"cmtText\": \"This is editted comment!\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:04:35 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7cb3dc845460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1e-Jjkuuh5nE7jhNOhe4t1sVEvF4Dw\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "1eaebc5b-0386-4130"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"editComment\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Remove Comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "mutation removeComment($removeCommentId: ID!) {\r\n  removeComment(id: $removeCommentId)\r\n}",
+								"variables": "{\r\n  \"removeCommentId\": 8\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolver removes a comment from a post.\n\n_We can get back comment by hitting the same API, because it will set the cmt_active to true._\n\nIt returns true if sucessfull"
+					},
+					"response": [
+						{
+							"name": "Remove Comment",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "mutation removeComment($removeCommentId: ID!) {\r\n  removeComment(id: $removeCommentId)\r\n}",
+										"variables": "{\r\n  \"removeCommentId\": 8\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:04:44 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7cedda715460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20-pwoJcxMMo0F2Ip1bE3jL96mRIRY\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "32ddf378-bc5f-4d03"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"removeComment\": true\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder contains comment related APIs"
+		},
+		{
+			"name": "Utils",
+			"item": [
+				{
+					"name": "Search User By Name",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query searchUsername($name: String!) {\r\n  findUsersByName(name: $name) {\r\n    id\r\n    username\r\n    firstname\r\n    lastname\r\n    email\r\n  }\r\n}",
+								"variables": "{\r\n  \"name\": \"Upender\"\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolver searches for a user by a name.\n\nIt searches the name in the first name and the last name both."
+					},
+					"response": [
+						{
+							"name": "Search User By Name",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query searchUsername($name: String!) {\r\n  findUsersByName(name: $name) {\r\n    id\r\n    username\r\n    firstname\r\n    lastname\r\n    email\r\n  }\r\n}",
+										"variables": "{\r\n  \"name\": \"Upender\"\r\n}"
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:04:56 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7d36ffec5460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"99-2dLiT/2GaXyTSSEq80hUHtzVRwU\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "43967738-c00b-41a0"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"findUsersByName\": [\n            {\n                \"id\": \"20\",\n                \"username\": \"upenderlakhwan\",\n                \"firstname\": \"Upender Singh\",\n                \"lastname\": \"Lakhwan\",\n                \"email\": \"lakhwanus009@gmail.com\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Fetch All Users",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query fetchAllUser {\r\n    getAllUsers {\r\n        id\r\n        username\r\n        password\r\n        firstname\r\n        lastname\r\n        email\r\n    }\r\n}",
+								"variables": ""
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						},
+						"description": "This resolver fetch all the users details.\n\nIt returns a list of User objects."
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "graphql",
+									"graphql": {
+										"query": "query fetchAllUser {\r\n    getAllUsers {\r\n        id\r\n        username\r\n        password\r\n        firstname\r\n        lastname\r\n        email\r\n    }\r\n}",
+										"variables": ""
+									}
+								},
+								"url": {
+									"raw": "https://toddle-social-backend.onrender.com/graphql",
+									"protocol": "https",
+									"host": [
+										"toddle-social-backend",
+										"onrender",
+										"com"
+									],
+									"path": [
+										"graphql"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Date",
+									"value": "Sat, 18 May 2024 23:03:01 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "CF-Ray",
+									"value": "885f7a68aee15460-DEL"
+								},
+								{
+									"key": "CF-Cache-Status",
+									"value": "DYNAMIC"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Cache-Control",
+									"value": "no-store"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2ab-y4ZatXQrN+nZg6jRkOyIy63qi80\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "rndr-id",
+									"value": "5b08641f-18bc-4900"
+								},
+								{
+									"key": "x-powered-by",
+									"value": "Express"
+								},
+								{
+									"key": "x-render-origin-server",
+									"value": "Render"
+								},
+								{
+									"key": "Server",
+									"value": "cloudflare"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "br"
+								},
+								{
+									"key": "alt-svc",
+									"value": "h3=\":443\"; ma=86400"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"data\": {\n        \"getAllUsers\": [\n            {\n                \"id\": \"20\",\n                \"username\": \"upenderlakhwan\",\n                \"password\": \"$argon2id$v=19$m=65536,t=3,p=4$MiqyC+S+upTlSsrhX5sUqQ$anF2r5FmqFOk9vPLr+XLOhUHPiAz9TOMVAzuh104Nmw\",\n                \"firstname\": \"Upender Singh\",\n                \"lastname\": \"Lakhwan\",\n                \"email\": \"lakhwanus009@gmail.com\"\n            },\n            {\n                \"id\": \"21\",\n                \"username\": \"johndoe1\",\n                \"password\": \"$argon2id$v=19$m=65536,t=3,p=4$6UVQyCfxNeZzKzNs96FmHw$Rr2/a8y0pOPcd6RQMeKbnA9pp9B7/4DaE+sAiDExsg0\",\n                \"firstname\": \"John\",\n                \"lastname\": \"Doe\",\n                \"email\": \"johndoe123@gmail.com\"\n            },\n            {\n                \"id\": \"22\",\n                \"username\": \"johndoe\",\n                \"password\": \"$argon2id$v=19$m=65536,t=3,p=4$gwGEe4J5WakYt6JM6IdwSQ$7/fxCdVJKjydTHxZWMBIGNqH/MShEy9452xK0A2mRbs\",\n                \"firstname\": \"John\",\n                \"lastname\": \"Doe\",\n                \"email\": \"johndoe123@gmail.com\"\n            }\n        ]\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "This folder contains other APIs which are essential and serve as utils. Maybe used by Administrator to fetch details."
+		},
+		{
+			"name": "Get Feed",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query getFeed($getFeedId: ID!) {\r\n  getFeed(id: $getFeedId) {\r\n    id\r\n    c_author\r\n    c_text\r\n    comments {\r\n      cmt_author\r\n      cmt_text\r\n    }\r\n    likes\r\n  }\r\n}",
+						"variables": "{\r\n  \"getFeedId\": 22\r\n\r\n}"
+					}
+				},
+				"url": {
+					"raw": "https://toddle-social-backend.onrender.com/graphql",
+					"protocol": "https",
+					"host": [
+						"toddle-social-backend",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"graphql"
+					]
+				},
+				"description": "This resolvers perform multiple tasks. It fetches all the content from the database accordingly.\n\nIt only shows the content of those users which the current user has followed + his/her own post.\n\nIt also shows the comment on that specifc post and likes on that post"
+			},
+			"response": [
+				{
+					"name": "Get Feed",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "graphql",
+							"graphql": {
+								"query": "query getFeed($getFeedId: ID!) {\r\n  getFeed(id: $getFeedId) {\r\n    id\r\n    c_author\r\n    c_text\r\n    comments {\r\n      cmt_author\r\n      cmt_text\r\n    }\r\n    likes\r\n  }\r\n}",
+								"variables": "{\r\n  \"getFeedId\": 22\r\n\r\n}"
+							}
+						},
+						"url": {
+							"raw": "https://toddle-social-backend.onrender.com/graphql",
+							"protocol": "https",
+							"host": [
+								"toddle-social-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"graphql"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Sat, 18 May 2024 23:05:10 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "CF-Ray",
+							"value": "885f7d841da45460-DEL"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-store"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2d6-zjiL3A2tSz0rmYmMGozpktc3TJU\""
+						},
+						{
+							"key": "Vary",
+							"value": "Accept-Encoding"
+						},
+						{
+							"key": "rndr-id",
+							"value": "045aef1c-0645-44e2"
+						},
+						{
+							"key": "x-powered-by",
+							"value": "Express"
+						},
+						{
+							"key": "x-render-origin-server",
+							"value": "Render"
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "br"
+						},
+						{
+							"key": "alt-svc",
+							"value": "h3=\":443\"; ma=86400"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"getFeed\": [\n            {\n                \"id\": \"15\",\n                \"c_author\": 20,\n                \"c_text\": \"I love this toddle app it helps them in teaching!\",\n                \"comments\": [\n                    {\n                        \"cmt_author\": 20,\n                        \"cmt_text\": \"Right man! I agree, it's so amazing app.\"\n                    },\n                    {\n                        \"cmt_author\": 22,\n                        \"cmt_text\": \"Right man! I agree, toddle is an amazing app.\"\n                    }\n                ],\n                \"likes\": 1\n            },\n            {\n                \"id\": \"16\",\n                \"c_author\": 20,\n                \"c_text\": \"I love this toddle app it helps them in teaching!\",\n                \"comments\": [],\n                \"likes\": 0\n            },\n            {\n                \"id\": \"18\",\n                \"c_author\": 22,\n                \"c_text\": \"I love this toddle app it helps them in teaching!\",\n                \"comments\": [],\n                \"likes\": 0\n            },\n            {\n                \"id\": \"19\",\n                \"c_author\": 20,\n                \"c_text\": \"I love this toddle app it helps them in teaching!\",\n                \"comments\": [],\n                \"likes\": 0\n            },\n            {\n                \"id\": \"22\",\n                \"c_author\": 22,\n                \"c_text\": \"I love this toddle app it helps them in teaching!\",\n                \"comments\": [],\n                \"likes\": 0\n            }\n        ]\n    }\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "render-website-toddle",
+			"value": "https://toddle-social-backend.onrender.com/graphql"
+		}
+	]
+}
