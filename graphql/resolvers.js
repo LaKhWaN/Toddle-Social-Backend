@@ -2,6 +2,10 @@
 
 const pool = require("../configs/dbConfigs");
 const { createToken } = require("../configs/jwt");
+const argon2 = require("argon2");
+
+// :) 👇
+const hash = "helping@teachers.providing/toolsfor;better*learning";
 
 const resolvers = {
   Query: {
@@ -49,7 +53,7 @@ const resolvers = {
         if (!user.rows[0]) {
           throw new Error("Invalid user");
         }
-        if (user.rows[0].password !== password) {
+        if (!(await argon2.verify(user.rows[0].password, password))) {
           throw new Error("Invalid password");
         }
         const authPayLoad = {
@@ -100,7 +104,6 @@ const resolvers = {
           "SELECT * FROM content WHERE c_author = ANY($1) AND c_active = true",
           [followingIds]
         );
-        console.log(content.rows);
         return content.rows;
       } catch (error) {
         console.log("ERROR: ", error);
@@ -138,7 +141,6 @@ const resolvers = {
           "SELECT COUNT(*) FROM likes WHERE liked_content = $1 AND like_active = true",
           [id]
         );
-        console.log(likes.rows[0].count);
         return likes.rows[0].count;
       } catch (error) {
         console.log("ERROR: ", error);
@@ -162,10 +164,11 @@ const resolvers = {
           throw new Error("Username already taken");
         }
 
+        const hashPassword = await argon2.hash(password, hash);
         // Insert new user into the database
         const registerUser = await pool.query(
           "INSERT INTO users (username, password, firstname, lastname, email) VALUES ($1, $2, $3, $4, $5)",
-          [username, password, firstname, lastname, email]
+          [username, hashPassword, firstname, lastname, email]
         );
 
         const userDetail = await pool.query(
@@ -316,7 +319,6 @@ const resolvers = {
           "SELECT COUNT(*) AS COUNT FROM likes WHERE liked_by = $1 AND liked_content = $2",
           [liked_by, liked_content]
         );
-        console.log(didLiked.rows[0].count);
         if (didLiked.rows[0].count > 0) {
           await pool.query(
             "UPDATE likes SET like_active = NOT like_active WHERE liked_by = $1 AND liked_content = $2",

@@ -37,10 +37,12 @@ const typeDefs = `
         liked_by: Int!
         liked_content: Int!
     }
+    
     type AuthPayLoad {
         token: String!
         user: User!
     }
+
     type Query {
         hello: String!
         

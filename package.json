@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "@apollo/server": "^4.10.4",
+    "argon2": "^0.40.1",
     "express": "^4.19.2",
     "graphql": "^16.8.1",
     "jsonwebtoken": "^9.0.2",
